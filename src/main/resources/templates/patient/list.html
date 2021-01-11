@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<title>All patients list</title>
+<link rel="stylesheet" href="../../css/bootstrap.min.css">
+</head>
+<body>
+	<div class="container">
+		<div class="row">
+			<h2>All Patients List</h2>
+		</div>
+		<div class="row">
+			<div class="col-6"></div>
+			<div class="col-6 text-right">
+				<a href="/">Home</a>&nbsp;
+			</div>
+		</div>
+		<div class="row">
+			<a href="/patient/add" class="btn btn-primary btn-sm">Add New Patient</a>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>LastName</th>
+						<th>FirstName</th>
+						<th>Sex</th>
+						<th>Birthdate</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="patient : ${patients}">
+						<td th:text="${patient.id}"></td>
+						<td th:text="${patient.lastName}"></td>
+						<td th:text="${patient.firstName}"></td>
+						<td th:text="${patient.sex}"></td>
+						<td th:text="${patient.birthdate}"></td>
+						<td style="width: 15%" class="text-center"><a
+							th:href="@{/patient/medicalRecord/{patId}(patId=${patient.id})}">Select</a>&nbsp;
+						
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>
