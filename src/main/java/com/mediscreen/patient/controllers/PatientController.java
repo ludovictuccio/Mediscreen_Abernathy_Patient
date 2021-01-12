@@ -5,9 +5,10 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mediscreen.patient.domain.Patient;
@@ -17,7 +18,6 @@ import com.mediscreen.patient.services.PatientService;
 import io.swagger.annotations.ApiOperation;
 
 @Controller
-@Validated
 @RequestMapping(value = "/patient")
 public class PatientController {
 
@@ -30,45 +30,14 @@ public class PatientController {
     @Autowired
     private PatientRepository patientRepository;
 
-    @ApiOperation(value = "GET a list of all patients with the same lastname", notes = "Need param lastName - Return   or  bad request", response = Patient.class)
+    @ApiOperation(value = "GET a list of all patients", notes = "Return response 200")
     @GetMapping("/list")
     public String home(final Model model) {
         model.addAttribute("patients", patientRepository.findAll());
         return "patient/list";
     }
 
-//    @GetMapping("/search")
-//    public String search(final String lastName, final BindingResult result,
-//            final Model model) {
-//
-//        if (!result.hasErrors()) {
-//            List<Patient> patients = patientService
-//                    .getAllPatientsWithLastname(lastName);
-//            if (patients != null) {
-//                model.addAttribute("patients", patients);
-//                return "patients";
-//            }
-//        }
-//        LOGGER.error("POST request FAILED for: /patient/validate");
-//        return "patient/search";
-//    }
-//    @GetMapping("/validate")
-//    public String validate(final String lastName, final BindingResult result,
-//            final Model model) {
-//
-//        if (!result.hasErrors()) {
-//            List<Patient> patientResults = patientService
-//                    .getAllPatientsWithLastname(lastName);
-//            if (patientResults != null) {
-//                model.addAttribute("patients", patientResults);
-//                return "redirect:/patient";
-//            }
-//        }
-//        LOGGER.error("POST request FAILED for: /patient/validate");
-//        return "patient/search";
-//    }
-
-    @ApiOperation(value = "GET the patient medical record", notes = "", response = Patient.class)
+    @ApiOperation(value = "GET the patient medical record", notes = "Need PathVariable with patient id. Return response 200")
     @GetMapping("/medicalRecord/{patId}")
     public String getMedicalRecord(@PathVariable("patId") final Long patId,
             final Model model) {
@@ -79,7 +48,67 @@ public class PatientController {
             return "redirect:/patient/list";
         }
         model.addAttribute("patientSelected", patient);
-        return "/patient/medicalrecord";
+        return "/patient/medicalRecord";
     }
+
+    @ApiOperation(value = "UPDATE Patient personals informations (Get)", notes = "Get a Patient by id and retrieve to update it. Need PathVariable with patient id. Return response 200 or 404 not found")
+    @GetMapping("/update/{patId}")
+    public String showUpdateForm(@PathVariable("patId") final Long patId,
+            final Model model) {
+        Patient patient = patientService.getPatientMedicalRecord(patId);
+
+        if (patient == null) {
+            LOGGER.error("Invalid patient Id: {}", patId);
+            return "redirect:/patient/medicalRecord";
+        }
+        model.addAttribute("patient", patient);
+        return "patient/update";
+    }
+
+    @ApiOperation(value = "UPDATE Patient personals informations (post)", notes = "Update the Patient. Only usename, address and phone can be changed. Return response 200")
+    @PostMapping("/update/{patId}")
+    public String updatePatient(@PathVariable("patId") final Long patId,
+            final Patient patient, final BindingResult result,
+            final Model model) {
+        if (result.hasErrors()) {
+            LOGGER.info("POST request FAILED for: /patient/update/{patId}");
+            return "patient/update";
+        }
+        patient.setId(patId);
+        patientService.updateMedicalRecord(patient);
+        model.addAttribute("patient", patient);
+        return "redirect:/patient/medicalRecord/{patId}";
+    }
+
+//  @GetMapping("/search")
+//  public String search(final String lastName, final BindingResult result,
+//          final Model model) {
+//
+//      if (!result.hasErrors()) {
+//          List<Patient> patients = patientService
+//                  .getAllPatientsWithLastname(lastName);
+//          if (patients != null) {
+//              model.addAttribute("patients", patients);
+//              return "patients";
+//          }
+//      }
+//      LOGGER.error("POST request FAILED for: /patient/validate");
+//      return "patient/search";
+//  }
+//  @GetMapping("/validate")
+//  public String validate(final String lastName, final BindingResult result,
+//          final Model model) {
+//
+//      if (!result.hasErrors()) {
+//          List<Patient> patientResults = patientService
+//                  .getAllPatientsWithLastname(lastName);
+//          if (patientResults != null) {
+//              model.addAttribute("patients", patientResults);
+//              return "redirect:/patient";
+//          }
+//      }
+//      LOGGER.error("POST request FAILED for: /patient/validate");
+//      return "patient/search";
+//  }
 
 }

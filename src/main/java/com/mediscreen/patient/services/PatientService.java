@@ -15,11 +15,17 @@ public interface PatientService {
      * @param lastName
      * @return a Patient list
      */
-    List<Patient> getAllPatientsWithLastname(final String lastName);
+    List<Patient> getAllPatientsWithSameLastname(final String lastName);
 
     /**
      * @param id
      * @return patient
      */
     Patient getPatientMedicalRecord(final Long id);
+
+    /**
+     * @param patient
+     * @return boolean isUpdated
+     */
+    boolean updateMedicalRecord(final Patient patient);
 }

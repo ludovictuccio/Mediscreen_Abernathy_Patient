@@ -2,8 +2,6 @@ package com.mediscreen.patient.services;
 
 import java.util.List;
 
-import javax.validation.Validator;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,16 +25,9 @@ public class PatientServiceImpl implements PatientService {
     private PatientRepository patientRepository;
 
     /**
-     * Validator used to validate javax constraints in model classes (for add or
-     * update a medical record).
-     */
-    private Validator validator;
-
-    /**
      * {@inheritDoc}
      */
-    public List<Patient> getAllPatientsWithLastname(final String lastName) {
-
+    public List<Patient> getAllPatientsWithSameLastname(final String lastName) {
         return patientRepository.findAllPatientByLastName(lastName);
     }
 
@@ -44,7 +35,28 @@ public class PatientServiceImpl implements PatientService {
      * {@inheritDoc}
      */
     public Patient getPatientMedicalRecord(final Long patId) {
-
         return patientRepository.findById(patId).orElse(null);
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean updateMedicalRecord(final Patient patient) {
+        boolean isUpdated = false;
+
+        Patient existingPatient = patientRepository.findById(patient.getId())
+                .orElse(null);
+
+        if (existingPatient == null) {
+            LOGGER.error("Unknow patient with id: {}", patient.getId());
+            return isUpdated;
+        }
+        existingPatient.setUseName(patient.getUseName());
+        existingPatient.setAddress(patient.getAddress());
+        existingPatient.setPhone(patient.getPhone());
+        patientRepository.save(existingPatient);
+        isUpdated = true;
+        return isUpdated;
+    }
+
 }

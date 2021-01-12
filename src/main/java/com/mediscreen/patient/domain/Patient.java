@@ -8,8 +8,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -44,24 +46,21 @@ public class Patient implements Serializable {
 
     @Getter
     @Setter
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "LastName is mandatory")
     @Size(min = 2, max = Constants.LASTNAME_MAX_SIZE)
     @Column(name = "lastname")
     private String lastName;
 
     @Getter
     @Setter
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "FirstName is mandatory")
     @Size(min = 2, max = Constants.FIRSTNAME_MAX_SIZE)
     @Column(name = "firstname")
     private String firstName;
 
     @Getter
     @Setter
-    @NotNull
-    @NotEmpty
+    @NotBlank(message = "Birthdate is mandatory")
     @JsonFormat(pattern = Constants.DATE_PATTERN)
     @DateTimeFormat(pattern = Constants.DATE_PATTERN)
     @Column(name = "birthdate")
@@ -69,11 +68,11 @@ public class Patient implements Serializable {
 
     @Getter
     @Setter
-    @NotNull
-    @NotEmpty
-    @Size(min = 1, max = 1)
+    @NotBlank(message = "Sex is mandatory (M or F)")
+    @Size(max = 1, message = "Sex is mandatory (M or F)")
     @Column(name = "sex")
-    private char sex;
+    @Pattern(regexp = "^[M|F]{1}$", message = "Must be M or F")
+    private String sex;
 
     @Getter
     @Setter
@@ -105,7 +104,7 @@ public class Patient implements Serializable {
     public Patient(@NotNull @NotEmpty @Size(min = 2, max = 100) String lastName,
             @NotNull @NotEmpty @Size(min = 2, max = 200) String firstName,
             @NotNull @NotEmpty String birthdate,
-            @NotNull @NotEmpty @Size(min = 1, max = 1) char sex,
+            @NotNull @NotEmpty @Size(min = 1, max = 1) String sex,
             @Size(max = 225) String address, @Size(max = 30) String phone) {
         super();
         this.lastName = lastName;
@@ -114,6 +113,23 @@ public class Patient implements Serializable {
         this.sex = sex;
         this.address = address;
         this.phone = phone;
+    }
+
+    public Patient(
+            @NotBlank(message = "LastName is mandatory") @Size(min = 2, max = 100) String lastName,
+            @NotBlank(message = "FirstName is mandatory") @Size(min = 2, max = 200) String firstName,
+            @NotBlank(message = "Birthdate is mandatory") String birthdate,
+            @NotBlank(message = "Sex is mandatory (M or F)") @Size(max = 1, message = "Sex is mandatory (M or F)") @Pattern(regexp = "^[M|F]{1}$", message = "Must be M or F") String sex,
+            @Size(max = 225) String address, @Size(max = 30) String phone,
+            @Size(max = 100) String useName) {
+        super();
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.birthdate = birthdate;
+        this.sex = sex;
+        this.address = address;
+        this.phone = phone;
+        this.useName = useName;
     }
 
 }

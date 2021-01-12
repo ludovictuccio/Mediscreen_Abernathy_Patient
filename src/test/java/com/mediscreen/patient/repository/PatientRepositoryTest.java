@@ -24,20 +24,20 @@ public class PatientRepositoryTest {
     private PatientRepository patientRepository;
 
     private static Patient patientGeneric1 = new Patient("Generic1", "Patient1",
-            "1990-12-31", 'M', "11 rue albert, 45000 Orleans", "0101010101");
+            "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101");
     private static Patient patientGeneric2 = new Patient("Generic2", "Patient2",
-            "2000-01-15", 'F', "22 rue albert, 75000 Paris", "0202020202");
+            "2000-01-15", "F", "22 rue albert, 75000 Paris", "0202020202");
 
     @Test
     @Tag("findAllPatientByLastName")
     @DisplayName("findAllPatientByLastName - OK")
     public void givenThreePatientsWithTheSameLastname_whenFind_ThenReturnThreeSizeList() {
         // GIVEN
-        Patient patientBoyd1 = new Patient("Boyd", "Georges", "1990-12-31", 'M',
+        Patient patientBoyd1 = new Patient("Boyd", "Georges", "1990-12-31", "M",
                 "11 rue albert, 45000 Orleans", "0101010101");
-        Patient patientBoyd2 = new Patient("Boyd", "Mickael", "200-12-31", 'M',
+        Patient patientBoyd2 = new Patient("Boyd", "Mickael", "200-12-31", "M",
                 "11 rue albert, 45000 Orleans", "0645423");
-        Patient patientBoyd3 = new Patient("Boyd", "Lydia", "1995-12-31", 'F',
+        Patient patientBoyd3 = new Patient("Boyd", "Lydia", "1995-12-31", "F",
                 "11 rue albert, 45000 Orleans", "016464");
 
         // WHEN
