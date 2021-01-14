@@ -1,5 +1,7 @@
 package com.mediscreen.patient.controllers;
 
+import javax.validation.Valid;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,14 +32,14 @@ public class PatientController {
     @Autowired
     private PatientRepository patientRepository;
 
-    @ApiOperation(value = "GET a list of all patients", notes = "Return response 200")
+    @ApiOperation(value = "GET a list of all patients", notes = "THYMELEAF - Return response 200")
     @GetMapping("/list")
     public String home(final Model model) {
         model.addAttribute("patients", patientRepository.findAll());
         return "patient/list";
     }
 
-    @ApiOperation(value = "GET the patient medical record", notes = "Need PathVariable with patient id. Return response 200")
+    @ApiOperation(value = "GET the patient medical record", notes = "THYMELEAF - Need PathVariable with patient id. Return response 200")
     @GetMapping("/medicalRecord/{patId}")
     public String getMedicalRecord(@PathVariable("patId") final Long patId,
             final Model model) {
@@ -51,7 +53,28 @@ public class PatientController {
         return "/patient/medicalRecord";
     }
 
-    @ApiOperation(value = "UPDATE Patient personals informations (Get)", notes = "Get a Patient by id and retrieve to update it. Need PathVariable with patient id. Return response 200 or 404 not found")
+    @ApiOperation(value = "ADD Patient (get)", notes = "THYMELEAF - Add new patient's medical record")
+    @GetMapping("/add")
+    public String addPatient(final Model model) {
+        model.addAttribute("patient", new Patient());
+        return "patient/add";
+    }
+
+    @ApiOperation(value = "VALIDATE add Patient (post)", notes = "THYMELEAF - Validate - save/add the new Patient")
+    @PostMapping("/validate")
+    public String validate(@Valid final Patient patient,
+            final BindingResult result, final Model model) {
+
+        if (!result.hasErrors()) {
+            Patient patientToAdd = patientService.addPatient(patient);
+            model.addAttribute("patient", patientToAdd);
+            return "redirect:/patient/list";
+        }
+        LOGGER.info("POST request FAILED for: /patient/validate");
+        return "patient/add";
+    }
+
+    @ApiOperation(value = "UPDATE Patient personals informations (Get)", notes = "THYMELEAF - Get a Patient by id and retrieve to update it. Need PathVariable with patient id. Return response 200 or 404 not found")
     @GetMapping("/update/{patId}")
     public String showUpdateForm(@PathVariable("patId") final Long patId,
             final Model model) {
@@ -65,7 +88,7 @@ public class PatientController {
         return "patient/update";
     }
 
-    @ApiOperation(value = "UPDATE Patient personals informations (post)", notes = "Update the Patient. Only usename, address and phone can be changed. Return response 200")
+    @ApiOperation(value = "UPDATE Patient personals informations (post)", notes = "THYMELEAF - Update the Patient. Only usename, address and phone can be changed. Return response 200")
     @PostMapping("/update/{patId}")
     public String updatePatient(@PathVariable("patId") final Long patId,
             final Patient patient, final BindingResult result,
@@ -75,40 +98,9 @@ public class PatientController {
             return "patient/update";
         }
         patient.setId(patId);
-        patientService.updateMedicalRecord(patient);
+        patientService.updateMedicalRecord(patient, patId);
         model.addAttribute("patient", patient);
         return "redirect:/patient/medicalRecord/{patId}";
     }
-
-//  @GetMapping("/search")
-//  public String search(final String lastName, final BindingResult result,
-//          final Model model) {
-//
-//      if (!result.hasErrors()) {
-//          List<Patient> patients = patientService
-//                  .getAllPatientsWithLastname(lastName);
-//          if (patients != null) {
-//              model.addAttribute("patients", patients);
-//              return "patients";
-//          }
-//      }
-//      LOGGER.error("POST request FAILED for: /patient/validate");
-//      return "patient/search";
-//  }
-//  @GetMapping("/validate")
-//  public String validate(final String lastName, final BindingResult result,
-//          final Model model) {
-//
-//      if (!result.hasErrors()) {
-//          List<Patient> patientResults = patientService
-//                  .getAllPatientsWithLastname(lastName);
-//          if (patientResults != null) {
-//              model.addAttribute("patients", patientResults);
-//              return "redirect:/patient";
-//          }
-//      }
-//      LOGGER.error("POST request FAILED for: /patient/validate");
-//      return "patient/search";
-//  }
 
 }

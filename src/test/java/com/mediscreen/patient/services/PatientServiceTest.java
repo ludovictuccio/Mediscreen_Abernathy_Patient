@@ -28,15 +28,17 @@ public class PatientServiceTest {
     private PatientRepository patientRepository;
 
     private static Patient patientGeneric1 = new Patient("Generic1", "Patient1",
-            "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101");
+            "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101",
+            "");
     private static Patient patientGeneric2 = new Patient("Generic2", "Patient2",
-            "2000-01-15", "F", "22 rue albert, 75000 Paris", "0202020202");
+            "2000-01-15", "F", "22 rue albert, 75000 Paris", "0202020202", "");
     private static Patient patientBoyd1 = new Patient("Boyd", "Georges",
-            "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101");
+            "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101",
+            "");
     private static Patient patientBoyd2 = new Patient("Boyd", "Mickael",
-            "200-12-31", "M", "11 rue albert, 45000 Orleans", "0645423");
+            "200-12-31", "M", "11 rue albert, 45000 Orleans", "0645423", "");
     private static Patient patientBoyd3 = new Patient("Boyd", "Lydia",
-            "1995-12-31", "F", "11 rue albert, 45000 Orleans", "016464");
+            "1995-12-31", "F", "11 rue albert, 45000 Orleans", "016464", "");
 
     @Test
     @Tag("getAllPatientsWithLastname")
@@ -246,18 +248,56 @@ public class PatientServiceTest {
     @DisplayName("updateMedicalRecord - OK")
     public void givenMedicalRecord_whenUpdate_thenReturnUpdated() {
         // GIVEN
-        patientRepository.save(patientGeneric1);
-        Patient patientUpdated = new Patient(5L, "Generic1", "Patient1",
+        patientService.addPatient(patientGeneric1);
+        Patient patientUpdated = new Patient("Generic1", "Patient1",
                 "1990-12-31", "M", "other address", "11111", "usename");
 
         // WHEN
-        boolean result = patientService.updateMedicalRecord(patientUpdated);
+        boolean result = patientService.updateMedicalRecord(patientUpdated, 5L);
 
         List<Patient> patientsList = patientRepository.findAll();
 
         // THEN
         assertThat(result).isTrue();
         assertThat(patientsList.size()).isEqualTo(5);// 4 in db
+    }
+
+    @Test
+    @Tag("addPatient")
+    @DisplayName("addPatient - Ok")
+    public void givenNonExistantPatient_whenAdd_thenReturnAdded() {
+        // GIVEN
+        Patient patientToAdd = new Patient("New", "Patient", "1990-12-31", "M",
+                "other address", "11111", "usename");
+
+        // WHEN
+        Patient result = patientService.addPatient(patientToAdd);
+
+        List<Patient> patientsList = patientRepository.findAll();
+
+        // THEN
+        assertThat(result).isNotNull();
+        assertThat(patientsList.size()).isEqualTo(5);// +1
+        assertThat(result.getId()).isEqualTo(5L);
+    }
+
+    @Test
+    @Tag("addPatient")
+    @DisplayName("addPatient - Error - Already exists")
+    public void givenExistingPatient_whenAdd_thenReturnNull() {
+        // GIVEN
+        patientRepository.save(patientGeneric1);
+        Patient patientToAdd = new Patient("Generic1", "Patient1", "1990-12-31",
+                "M", "other address", "11111", "usename");
+
+        // WHEN
+        Patient result = patientService.addPatient(patientToAdd);
+
+        List<Patient> patientsList = patientRepository.findAll();
+
+        // THEN
+        assertThat(result).isNull();
+        assertThat(patientsList.size()).isEqualTo(5);// Not Changed
     }
 
 }

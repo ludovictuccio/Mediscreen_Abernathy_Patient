@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mediscreen.patient.domain.Patient;
 import com.mediscreen.patient.repository.PatientRepository;
 import com.mediscreen.patient.services.PatientService;
@@ -41,12 +42,17 @@ public class PatientControllerIT {
     @Autowired
     private PatientRepository patientRepository;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     private static final String URI_GET_PATIENT_LIST = "/patient/list";
     private static final String URI_GET_VALID_PATIENT_MEDICAL_RECORD = "/patient/medicalRecord/1";
     private static final String URI_GET_INVALID_PATIENT_MEDICAL_RECORD = "/patient/medicalRecord/111";
     private static final String URI_GET_UPDATE_VALID_MEDICAL_RECORD = "/patient/update/1";
     private static final String URI_GET_UPDATE_INVALID_MEDICAL_RECORD = "/patient/update/111";
     private static final String URI_POST_UPDATE_VALID_MEDICAL_RECORD = "/patient/update/1";
+    private static final String URI_GET_ADD_PATIENT = "/patient/add";
+    private static final String URI_POST_ADD_PATIENT_VALIDATE = "/patient/validate";
 
     @BeforeEach
     public void setUpPerTest() {
@@ -73,10 +79,9 @@ public class PatientControllerIT {
     public void givenPatient_whenGetMedicalRecordWithValidId_thenReturnOk()
             throws Exception {
         Patient patientGeneric1 = new Patient("Generic1", "Patient1",
-                "1990-12-31", "M", "11 rue albert, 45000 Orleans",
-                "0101010101");
-        patientGeneric1.setId(1L);
-        patientRepository.save(patientGeneric1);
+                "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101",
+                "");
+        patientService.addPatient(patientGeneric1);
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .get(URI_GET_VALID_PATIENT_MEDICAL_RECORD)
@@ -95,10 +100,9 @@ public class PatientControllerIT {
     public void givenPatient_whenGetMedicalRecordWithInvalidId_thenReturnOk()
             throws Exception {
         Patient patientGeneric1 = new Patient("Generic1", "Patient1",
-                "1990-12-31", "M", "11 rue albert, 45000 Orleans",
-                "0101010101");
-        patientGeneric1.setId(1L);
-        patientRepository.save(patientGeneric1);
+                "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101",
+                "");
+        patientService.addPatient(patientGeneric1);
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .get(URI_GET_INVALID_PATIENT_MEDICAL_RECORD)
@@ -108,16 +112,46 @@ public class PatientControllerIT {
     }
 
     @Test
+    @Tag("/patient/add")
+    @DisplayName("Get - add")
+    public void givenPatientPage_whenGetAdd_thenReturnOk() throws Exception {
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.get(URI_GET_ADD_PATIENT)
+                        .contentType(APPLICATION_JSON))
+                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.model().hasNoErrors())
+                .andExpect(MockMvcResultMatchers.model()
+                        .attributeExists("patient"))
+                .andReturn();
+    }
+
+    @Test
+    @Tag("/patient/validate")
+    @DisplayName("Post - validate - ERROR - Empty lastname")
+    public void givenInvalidLastname_whenValidate_thenReturnModelErrors()
+            throws Exception {
+        Patient patient = new Patient("Generic", "Patient", "1990-12-31", "M",
+                "11 rue albert, 45000 Orleans", "0101010101", "usename");
+        String jsonContent = objectMapper.writeValueAsString(patient);
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post(URI_POST_ADD_PATIENT_VALIDATE)
+                        .contentType(APPLICATION_JSON).content(jsonContent))
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(MockMvcResultMatchers.model().hasErrors())
+                .andReturn();
+    }
+
+    @Test
     @Tag("/patient/update")
     @DisplayName("Get - Update - OK")
     public void givenOnePatient_whenUpdate_thenReturnUpdated()
             throws Exception {
         Patient patientGeneric1 = new Patient("Generic1", "Patient1",
-                "1990-12-31", "M", "11 rue albert, 45000 Orleans",
-                "0101010101");
-        patientGeneric1.setId(1L);
-        patientRepository.save(patientGeneric1);
-
+                "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101",
+                "");
+        patientService.addPatient(patientGeneric1);
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .get(URI_GET_UPDATE_VALID_MEDICAL_RECORD))
@@ -134,11 +168,9 @@ public class PatientControllerIT {
     public void givenOnePatient_whenUpdateWithInvalidId_thenReturnNotUpdated()
             throws Exception {
         Patient patientGeneric1 = new Patient("Generic1", "Patient1",
-                "1990-12-31", "M", "11 rue albert, 45000 Orleans",
-                "0101010101");
-        patientGeneric1.setId(1L);
-        patientRepository.save(patientGeneric1);
-
+                "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101",
+                "");
+        patientService.addPatient(patientGeneric1);
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .get(URI_GET_UPDATE_INVALID_MEDICAL_RECORD))
@@ -153,10 +185,9 @@ public class PatientControllerIT {
     @DisplayName("Post - Update - OK")
     public void givenOnePatient_whenUpdate_thenReturnOk() throws Exception {
         Patient patientGeneric1 = new Patient("Generic1", "Patient1",
-                "1990-12-31", "M", "11 rue albert, 45000 Orleans",
-                "0101010101");
-        patientGeneric1.setId(1L);
-        patientRepository.save(patientGeneric1);
+                "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101",
+                "");
+        patientService.addPatient(patientGeneric1);
         assertThat(patientRepository.findAll().get(0).getId()).isEqualTo(1l);
 
         this.mockMvc
