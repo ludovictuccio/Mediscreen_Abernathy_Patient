@@ -5,8 +5,10 @@ import javax.validation.Validator;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.annotation.Bean;
 
+@EnableFeignClients
 @SpringBootApplication
 public class MediscreenPatientApplication {
 
@@ -18,10 +20,5 @@ public class MediscreenPatientApplication {
     public Validator validator() {
         return Validation.buildDefaultValidatorFactory().getValidator();
     }
-
-//    @Bean
-//    public MethodValidationPostProcessor methodValidationPostProcessor() {
-//        return new MethodValidationPostProcessor();
-//    }
 
 }
