@@ -18,7 +18,7 @@
 			</div>
 		</div>
 		<div class="row">
-			<table class="table table-bordered">
+			<table class="table table-bordered col-12">
 				<thead>
 					<tr>
 						<th>Last Name</th>
@@ -40,12 +40,14 @@
 						<td th:text="${patient.address}"></td>
 						<td th:text="${patient.phone}"></td>
 						<td style="width: 15%" class="text-center"><a
-							th:href="@{/patient/update/{patId}(patId=${patient.id})}">Edit</a>&nbsp;
+							th:href="@{/patient/update/{patId}(patId=${patient.id})}">Edit</a>&nbsp; |
+							<a
+							th:href="@{/note/list/{patId}(patId=${patient.id})}">Notes</a>&nbsp;
 					
 					</tr>
 				</tbody>
 			</table>
-		</div>
+		</div>		
 	</div>
 </body>
 </html>

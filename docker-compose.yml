@@ -1,0 +1,27 @@
+version: '3.3'
+
+services:
+  gateway:
+    image: mediscreen-gateway
+    container_name: mediscreen-gateway
+    ports:
+      - 8080:8080
+    networks:
+      - md-net
+    depends_on:
+      - patient
+    restart: always
+
+  patient:
+    image: mediscreen-patient
+    container_name: mediscreen-patient
+    ports:
+      - 8081:8081
+    networks:
+      - md-net
+    restart: always
+
+
+networks:
+  md-net:
+      driver: bridge

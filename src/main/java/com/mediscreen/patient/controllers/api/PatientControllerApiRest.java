@@ -47,13 +47,13 @@ public class PatientControllerApiRest {
     @ApiOperation(value = "GET a list of all patients with the same lastname", notes = "Need param lastName - Return a list (empty if no lastName found) - Return 200", response = Patient.class)
     @GetMapping("/searchPatient")
     public List<Patient> getAllPatientsWithSameLastname(
-            @RequestParam String lastName) {
+            @RequestParam final String lastName) {
         return patientService.getAllPatientsWithSameLastname(lastName);
     }
 
     @ApiOperation(value = "GET the patient medical record", notes = "Need param long 'patId' with patient's id - Return response 200", response = Patient.class)
     @GetMapping
-    public Patient getMedicalRecord(@RequestParam Long patId) {
+    public Patient getMedicalRecord(@RequestParam final Long patId) {
         return patientService.getPatientMedicalRecord(patId);
     }
 
@@ -80,7 +80,7 @@ public class PatientControllerApiRest {
         if (result == true) {
             return new ResponseEntity<Boolean>(HttpStatus.OK);
         }
-        LOGGER.error("POST request FAILED for: /api/patient");
+        LOGGER.error("PUT request FAILED for: /api/patient");
         return new ResponseEntity<Boolean>(HttpStatus.BAD_REQUEST);
     }
 
