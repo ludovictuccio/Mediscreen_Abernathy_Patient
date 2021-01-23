@@ -1,6 +1,6 @@
-CREATE DATABASE mediscreen_db CHARACTER SET utf8mb4;
-
-USE mediscreen_db;
+DROP DATABASE IF EXISTS mediscreen_db_test;
+CREATE DATABASE mediscreen_db_test CHARACTER SET utf8mb4;
+USE mediscreen_db_test;
 
 CREATE TABLE patient (
                 id BIGINT AUTO_INCREMENT NOT NULL,
@@ -15,6 +15,3 @@ CREATE TABLE patient (
 ) ENGINE = INNODB DEFAULT CHARSET=utf8mb4;
 
 ALTER TABLE patient MODIFY COLUMN sex CHAR(1) COMMENT 'M or F';
-
-
-CREATE DATABASE mediscreen_db_test CHARACTER SET utf8mb4;

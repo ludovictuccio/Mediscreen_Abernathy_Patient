@@ -41,17 +41,33 @@ public class PatientController {
 
     @ApiOperation(value = "GET the patient medical record", notes = "THYMELEAF - Need PathVariable with patient id. Return response 200")
     @GetMapping("/patient/medicalRecord/{patId}")
-    public String getMedicalRecord(@PathVariable("patId") final Long patId,
-            final Model model) {
+    public ModelAndView getMedicalRecord(
+            @PathVariable("patId") final Long patId, final ModelMap model) {
         Patient patient = patientService.getPatientMedicalRecord(patId);
 
         if (patient == null) {
             LOGGER.error("Invalid patient Id: {}", patId);
-            return "redirect:/patient/list";
+            return new ModelAndView("patient/list");
         }
         model.addAttribute("patientSelected", patient);
-        return "/patient/medicalRecord";
+        return new ModelAndView("patient/medicalRecord", model);
+
     }
+
+//    @ApiOperation(value = "GET the patient medical record", notes = "THYMELEAF - Need PathVariable with patient id. Return response 200")
+//    @GetMapping("/patient/medicalRecord/{patId}")
+//    public String getMedicalRecord(@PathVariable("patId") final Long patId,
+//            final Model model) {
+//        Patient patient = patientService.getPatientMedicalRecord(patId);
+//
+//        if (patient == null) {
+//            LOGGER.error("Invalid patient Id: {}", patId);
+//            return "redirect:/patient/list";
+//        }
+//        model.addAttribute("patientSelected", patient);
+//        
+//        return "patient/medicalRecord";
+//    }
 
     @ApiOperation(value = "ADD Patient (get)", notes = "THYMELEAF - Add new patient's medical record")
     @GetMapping("/patient/add")
