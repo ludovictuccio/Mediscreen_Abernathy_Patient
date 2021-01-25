@@ -37,4 +37,5 @@ public class MediscreenPatientApplication {
     public ModelMapper modelMapper() {
         return new ModelMapper();
     }
+
 }

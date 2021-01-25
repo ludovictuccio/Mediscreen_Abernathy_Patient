@@ -14,11 +14,12 @@ public class ReportServiceImpl implements ReportService {
     private EntityToDtoConverter entityToDtoConverter;
 
     /**
-     *
+     * {@inheritDoc}
      */
     public PatientDto getPatientDto(final Patient patient) {
         PatientDto patientDto = entityToDtoConverter
                 .convertPatientToDto(patient);
         return patientDto;
     }
+
 }
