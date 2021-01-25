@@ -3,6 +3,7 @@ package com.mediscreen.patient;
 import javax.validation.Validation;
 import javax.validation.Validator;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
@@ -30,5 +31,10 @@ public class MediscreenPatientApplication {
         loggingFilter.setIncludePayload(true);
         loggingFilter.setIncludeHeaders(true);
         return loggingFilter;
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }
