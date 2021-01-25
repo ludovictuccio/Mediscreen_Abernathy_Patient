@@ -1,5 +1,12 @@
+FROM maven:3.6-jdk-11 AS build  
+COPY pom.xml /build/
+COPY src /build/src/
+WORKDIR /build/
+RUN mvn clean package  -Dmaven.test.skip=true
+
 FROM openjdk:11
+WORKDIR /app
 EXPOSE 8081
-ARG JAR_FILE=target/*.jar
-COPY ${JAR_FILE} app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+COPY --from=build /build/target/patient-0.0.1-SNAPSHOT.jar  /app/
+
+ENTRYPOINT ["java","-jar","patient-0.0.1-SNAPSHOT.jar"]
