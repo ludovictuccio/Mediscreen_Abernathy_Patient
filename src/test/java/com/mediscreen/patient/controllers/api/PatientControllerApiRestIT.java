@@ -45,11 +45,44 @@ public class PatientControllerApiRestIT {
     private static final String URI_BASE = "/api/patient";
     private static final String URI_LIST = "/api/patient/list";
     private static final String URI_SEARCH = "/api/patient/searchPatient";
+    private static final String URI_GET_PATIENT_INFOS = "/api/patient/getPatientPersonalInformations/";
 
     @BeforeEach
     public void setUpPerTest() {
         mockMvc = MockMvcBuilders.webAppContextSetup(wac).build();
         patientRepository.deleteAll();
+    }
+
+    @Test
+    @Tag("/getPatientPersonalInformations/{patId}")
+    @DisplayName("GET PatientPersonalInformations - OK - 200 - Existing patId")
+    public void givenExistingPatientId_whenGetInfos_thenReturnOk()
+            throws Exception {
+        Patient patient = new Patient(1L, "Boyd", "Patient1", "1990-12-31", "M",
+                "11 rue albert, 45000 Orleans", "0101010101", "");
+        patientService.addPatient(patient);
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.get(URI_GET_PATIENT_INFOS + "1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isOk()).andReturn();
+    }
+
+    @Test
+    @Tag("/getPatientPersonalInformations/{patId}")
+    @DisplayName("GET PatientPersonalInformations - Error - 404 - Nonexistant patId")
+    public void givenNonExistantPatientId_whenGetInfos_thenReturnNotFound()
+            throws Exception {
+        Patient patient = new Patient(1L, "Boyd", "Patient1", "1990-12-31", "M",
+                "11 rue albert, 45000 Orleans", "0101010101", "");
+        patientService.addPatient(patient);
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .get(URI_GET_PATIENT_INFOS + "111")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andDo(MockMvcResultHandlers.print())
+                .andExpect(status().isNotFound()).andReturn();
     }
 
     @Test

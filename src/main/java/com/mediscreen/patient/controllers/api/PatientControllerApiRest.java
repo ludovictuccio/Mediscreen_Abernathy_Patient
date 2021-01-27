@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mediscreen.patient.domain.Patient;
+import com.mediscreen.patient.exceptions.PatientException;
 import com.mediscreen.patient.repository.PatientRepository;
 import com.mediscreen.patient.services.PatientService;
+import com.mediscreen.patient.services.ReportService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -34,6 +37,9 @@ public class PatientControllerApiRest {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private ReportService reportService;
 
     @Autowired
     private PatientRepository patientRepository;
@@ -82,6 +88,22 @@ public class PatientControllerApiRest {
         }
         LOGGER.error("PUT request FAILED for: /api/patient");
         return new ResponseEntity<Boolean>(HttpStatus.BAD_REQUEST);
+    }
+
+    @ApiOperation(value = "GET patient's personal informations DTO", notes = "Need param patId (the patient's id) - Return response 200 OK or 404 not found")
+    @GetMapping("/getPatientPersonalInformations/{patId}")
+    public com.mediscreen.patient.domain.dto.PatientDto getPatientPersonalInformations(
+            @PathVariable("patId") Long patId) throws PatientException {
+        checkExistingPatient(patId);
+        Patient patient = patientService.getPatientMedicalRecord(patId);
+        return reportService.getPatientDto(patient);
+    }
+
+    public void checkExistingPatient(final Long patId) throws PatientException {
+        Patient patient = patientService.getPatientMedicalRecord(patId);
+        if (patient == null) {
+            throw new PatientException("Patient not found with id: " + patId);
+        }
     }
 
 }

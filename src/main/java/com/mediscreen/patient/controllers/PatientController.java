@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.mediscreen.patient.domain.Patient;
 import com.mediscreen.patient.repository.PatientRepository;
 import com.mediscreen.patient.services.PatientService;
+import com.mediscreen.patient.services.ReportService;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -28,6 +29,9 @@ public class PatientController {
 
     @Autowired
     private PatientService patientService;
+
+    @Autowired
+    private ReportService reportService;
 
     @Autowired
     private PatientRepository patientRepository;
@@ -53,21 +57,6 @@ public class PatientController {
         return new ModelAndView("patient/medicalRecord", model);
 
     }
-
-//    @ApiOperation(value = "GET the patient medical record", notes = "THYMELEAF - Need PathVariable with patient id. Return response 200")
-//    @GetMapping("/patient/medicalRecord/{patId}")
-//    public String getMedicalRecord(@PathVariable("patId") final Long patId,
-//            final Model model) {
-//        Patient patient = patientService.getPatientMedicalRecord(patId);
-//
-//        if (patient == null) {
-//            LOGGER.error("Invalid patient Id: {}", patId);
-//            return "redirect:/patient/list";
-//        }
-//        model.addAttribute("patientSelected", patient);
-//        
-//        return "patient/medicalRecord";
-//    }
 
     @ApiOperation(value = "ADD Patient (get)", notes = "THYMELEAF - Add new patient's medical record")
     @GetMapping("/patient/add")
@@ -119,12 +108,21 @@ public class PatientController {
         return "redirect:/patient/medicalRecord/{patId}";
     }
 
+    @ApiOperation(value = "GET notes list", notes = "THYMELEAF - Return to notes microservice")
     @GetMapping("/note/list/{patId}")
     public ModelAndView getPatientNotes(
             @PathVariable("patId") final String patId, final ModelMap model) {
         model.addAttribute("patId", patId);
         return new ModelAndView("redirect:http://localhost:8082/note/list",
                 model);
+    }
+
+    @ApiOperation(value = "GET diabete report", notes = "THYMELEAF - Redirect to reports microservice")
+    @GetMapping("/report/{patId}")
+    public ModelAndView getPatientDiabeteAssessment(
+            @PathVariable("patId") final String patId, final ModelMap model) {
+        model.addAttribute("patId", patId);
+        return new ModelAndView("redirect:http://localhost:8083/report", model);
     }
 
 }
