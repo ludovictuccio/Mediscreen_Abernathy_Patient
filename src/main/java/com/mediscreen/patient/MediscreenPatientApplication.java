@@ -34,7 +34,7 @@ public class MediscreenPatientApplication {
     }
 
     @Bean
-    public ModelMapper modelMapper() {
+    public ModelMapper getModelMapper() {
         return new ModelMapper();
     }
 

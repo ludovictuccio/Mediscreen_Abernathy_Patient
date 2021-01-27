@@ -89,25 +89,6 @@ public class PatientControllerIT {
                 .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.model().hasNoErrors())
-                .andExpect(MockMvcResultMatchers.view()
-                        .name("/patient/medicalRecord"))
-                .andReturn();
-    }
-
-    @Test
-    @Tag("/patient/medicalRecord/{patId}")
-    @DisplayName("Get - Medical record - Error - Invalid id")
-    public void givenPatient_whenGetMedicalRecordWithInvalidId_thenReturnOk()
-            throws Exception {
-        Patient patientGeneric1 = new Patient("Generic1", "Patient1",
-                "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101",
-                "");
-        patientService.addPatient(patientGeneric1);
-        this.mockMvc
-                .perform(MockMvcRequestBuilders
-                        .get(URI_GET_INVALID_PATIENT_MEDICAL_RECORD)
-                        .contentType(APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.redirectedUrl("/patient/list"))
                 .andReturn();
     }
 
