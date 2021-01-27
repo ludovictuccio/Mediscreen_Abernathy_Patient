@@ -36,7 +36,7 @@ public class ReportServiceTest {
     @Test
     @Tag("getPatientDto")
     @DisplayName("getPatientDto - OK")
-    public void aaaa() {
+    public void givenPatient_whenGetDto_thenReturnDto() {
         // GIVEN
 
         // WHEN

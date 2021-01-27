@@ -62,7 +62,8 @@ public class PatientControllerApiRestIT {
                 "11 rue albert, 45000 Orleans", "0101010101", "");
         patientService.addPatient(patient);
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get(URI_GET_PATIENT_INFOS + "1")
+                .perform(MockMvcRequestBuilders
+                        .get(URI_GET_PATIENT_INFOS + patient.getId())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk()).andReturn();

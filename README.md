@@ -24,7 +24,7 @@ The microservice used for add notes to patient's medical record, used on port 80
 ---
 
 4. **Reports**: https://github.com/ludovictuccio/Mediscreen_Abernathy_Reports <br/>
-The microservice used for generate patient's diabete reports, used on port 8083. <br/>
+The microservice used for generate patient's diabetes assessment reports, used on port 8083. <br/>
 ---
 
 **Feign** is used for the microservices relations.
@@ -70,7 +70,7 @@ If you want to deploy all TourGuide microservices, use the **docker-compose.yml*
 
 ## API REST Endpoints
 
-# Patient microservice
+### Patient microservice
 
 > **POST** - Add new patient's medical record <br/>
 http://localhost:8081/api/patient <br/>
@@ -92,7 +92,7 @@ http://localhost:8081/api/patient/searchPatient <br/>
 http://localhost:8081/api/patient <br/>
 **Need parameter**: patId = the patient id <br/>
 
-# Notes microservice
+### Notes microservice
 
 > **POST** - Add new patient's note <br/>
 http://localhost:8082/api/note <br/>
@@ -110,7 +110,8 @@ http://localhost:8082/api/note/all <br/>
 http://localhost:8082/api/note <br/>
 **Need parameter**: patId = the patient's id <br/>
 
-# Reports microservice
+
+### Reports microservice
 
 > **GET** - Get patient's personal informations DTO <br/>
 http://localhost:8083/api/reports/getPatientPersonalInformations <br/>
@@ -118,6 +119,10 @@ http://localhost:8083/api/reports/getPatientPersonalInformations <br/>
 
 > **GET** - Get all patient's notes DTO list <br/>
 http://localhost:8083/api/reports/getAllPatientsNoteDto <br/>
+**Need parameter**: patId = the patient's id <br/>
+
+> **GET** - Get patient's diabetes assesment report <br/>
+http://localhost:8083/api/reports/report <br/>
 **Need parameter**: patId = the patient's id <br/>
 
 ## Testing
