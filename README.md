@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/badge/java-%23ED8B00.svg?&style=for-the-badge&logo=java&logoColor=white"/> * * *  <img src="https://img.shields.io/badge/spring%20-%236DB33F.svg?&style=for-the-badge&logo=spring&logoColor=white"/>  * * *  <img src="https://img.shields.io/badge/docker%20-%230db7ed.svg?&style=for-the-badge&logo=docker&logoColor=white"/> * * * [![made-with-sphinx-doc](https://img.shields.io/badge/Made%20with-Gradle-1f425f.svg)](https://www.sphinx-doc.org/)
+<img src="https://img.shields.io/badge/java-%23ED8B00.svg?&style=for-the-badge&logo=java&logoColor=white"/> * * *  <img src="https://img.shields.io/badge/spring%20-%236DB33F.svg?&style=for-the-badge&logo=spring&logoColor=white"/>  * * *  <img src="https://img.shields.io/badge/docker%20-%230db7ed.svg?&style=for-the-badge&logo=docker&logoColor=white"/>
 
 # Mediscreen_Abernathy - Patient
 
@@ -108,6 +108,16 @@ http://localhost:8082/api/note/all <br/>
 
 > **GET** - Get all patient's notes list <br/>
 http://localhost:8082/api/note <br/>
+**Need parameter**: patId = the patient's id <br/>
+
+# Reports microservice
+
+> **GET** - Get patient's personal informations DTO <br/>
+http://localhost:8083/api/reports/getPatientPersonalInformations <br/>
+**Need parameter**: patId = the patient's id <br/>
+
+> **GET** - Get all patient's notes DTO list <br/>
+http://localhost:8083/api/reports/getAllPatientsNoteDto <br/>
 **Need parameter**: patId = the patient's id <br/>
 
 ## Testing

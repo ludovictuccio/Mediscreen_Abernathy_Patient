@@ -108,6 +108,7 @@ public class PatientController {
         return "redirect:/patient/medicalRecord/{patId}";
     }
 
+    @ApiOperation(value = "GET notes list", notes = "THYMELEAF - Return to notes microservice")
     @GetMapping("/note/list/{patId}")
     public ModelAndView getPatientNotes(
             @PathVariable("patId") final String patId, final ModelMap model) {
@@ -116,11 +117,12 @@ public class PatientController {
                 model);
     }
 
-    @GetMapping("/patient/reports/{patId}")
+    @ApiOperation(value = "GET diabete report", notes = "THYMELEAF - Redirect to reports microservice")
+    @GetMapping("/report/{patId}")
     public ModelAndView getPatientDiabeteAssessment(
             @PathVariable("patId") final String patId, final ModelMap model) {
         model.addAttribute("patId", patId);
-        return new ModelAndView("redirect:http://localhost:8083/reports/report",
-                model);
+        return new ModelAndView("redirect:http://localhost:8083/report", model);
     }
+
 }
