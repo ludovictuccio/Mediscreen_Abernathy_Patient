@@ -47,7 +47,6 @@ public class PatientControllerIT {
 
     private static final String URI_GET_PATIENT_LIST = "/patient/list";
     private static final String URI_GET_VALID_PATIENT_MEDICAL_RECORD = "/patient/medicalRecord/1";
-    private static final String URI_GET_INVALID_PATIENT_MEDICAL_RECORD = "/patient/medicalRecord/111";
     private static final String URI_GET_UPDATE_VALID_MEDICAL_RECORD = "/patient/update/1";
     private static final String URI_GET_UPDATE_INVALID_MEDICAL_RECORD = "/patient/update/111";
     private static final String URI_POST_UPDATE_VALID_MEDICAL_RECORD = "/patient/update/1";

@@ -78,7 +78,6 @@ http://localhost:8081/api/patient <br/>
 
 > **PUT** - Update patient's personal informations<br/>
 http://localhost:8081/api/patient <br/>
-**Need parameter**: patId = the patient id <br/>
 **Need body** with: lastName, firstName, birthdate(yyyy-MM--dd), sex, address, phone & usename
 
 > **GET** - Get all patient's list <br/>
@@ -96,19 +95,23 @@ http://localhost:8081/api/patient <br/>
 
 > **POST** - Add new patient's note <br/>
 http://localhost:8082/api/note <br/>
-**Need body** with: patId (the patient's id), patientLastname & note
+**Need body** with: 'lastName', 'firstName', 'note' <br/>
 
 > **PUT** - Update a patient's note <br/>
 http://localhost:8082/api/note <br/>
 **Need parameter**: id = the note's id <br/>
-**Need body** with: patId (the patient's id), patientLastname & note
+**Need body** with: 'lastName', 'firstName', 'note' <br/>
 
 > **GET** - Get all notes list <br/>
 http://localhost:8082/api/note/all <br/>
 
 > **GET** - Get all patient's notes list <br/>
 http://localhost:8082/api/note <br/>
-**Need parameter**: patId = the patient's id <br/>
+**Need parameter**: 'lastName' & 'firstName' <br/>
+
+> **GET** - Get all patient's notes DTO <br/>
+http://localhost:8082/api/note/getAllPatientsNoteDto <br/>
+**Need parameter**: 'lastName' & 'firstName' <br/>
 
 
 ### Reports microservice
@@ -119,7 +122,7 @@ http://localhost:8083/api/reports/getPatientPersonalInformations <br/>
 
 > **GET** - Get all patient's notes DTO list <br/>
 http://localhost:8083/api/reports/getAllPatientsNoteDto <br/>
-**Need parameter**: patId = the patient's id <br/>
+**Need parameter**: lastName & firstName <br/>
 
 > **GET** - Get patient's diabetes assesment report <br/>
 http://localhost:8083/api/reports/report <br/>

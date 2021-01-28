@@ -44,4 +44,12 @@ public interface PatientService {
      */
     boolean updateMedicalRecord(final Patient patient);
 
+    /**
+     * Method used to update a patient's medical record by patient's id.
+     *
+     * @param patient
+     * @return boolean isUpdated
+     */
+    boolean updateMedicalRecordByPatId(final Patient patient, final Long patId);
+
 }

@@ -76,7 +76,7 @@ public class PatientControllerApiRest {
 
     }
 
-    @ApiOperation(value = "POST Add a new patient's medical record", notes = "Need Patient body - Return response 201 created or 400 bad request")
+    @ApiOperation(value = "POST Add a new patient's medical record", notes = "Need Patient body (with: lastName, firstName, birthdate, sex, address, phone, useName) - Return response 201 created or 400 bad request")
     @PostMapping
     public ResponseEntity<Patient> addPatient(
             @Valid @RequestBody final Patient patient) {
@@ -89,7 +89,7 @@ public class PatientControllerApiRest {
         return new ResponseEntity<Patient>(HttpStatus.BAD_REQUEST);
     }
 
-    @ApiOperation(value = "PUT Update a patient's medical record", notes = "Need Patient body & param long 'patId' with patient's id - Return response 200 Ok or 400 bad request")
+    @ApiOperation(value = "PUT Update a patient's medical record", notes = "Need Patient body (with: lastName, firstName, birthdate, sex, address, phone, useName) - Return response 200 Ok or 400 bad request if patient not found")
     @PutMapping
     public ResponseEntity<Boolean> updateMedicalRecord(
             @Valid @RequestBody final Patient patient) {

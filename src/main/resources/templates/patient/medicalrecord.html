@@ -41,7 +41,7 @@
 						<td th:text="${patient.phone}"></td>
 						<td style="width: 20%" class="text-center"><a
 							th:href="@{/patient/update/{patId}(patId=${patient.id})}">Edit</a>&nbsp;
-							| <a th:href="@{/note/list/{patId}(patId=${patient.id})}">Notes</a>&nbsp;
+							| <a th:href="@{/note/list/{lastName}/{firstName}(lastName=${patient.lastName},firstName=${patient.firstName})}">Notes</a>&nbsp;
 							| <a th:href="@{/report/{patId}(patId=${patient.id})}">Report</a>&nbsp;
 						
 					</tr>

@@ -92,7 +92,30 @@ public class PatientServiceImpl implements PatientService {
                 patient.getLastName(), patient.getFirstName());
 
         if (existingPatient == null) {
-            LOGGER.error("Unknow patient: ");
+            LOGGER.error("Unknow patient: {} {}", patient.getLastName(),
+                    patient.getFirstName());
+            return isUpdated;
+        }
+        existingPatient.setUseName(patient.getUseName());
+        existingPatient.setAddress(patient.getAddress());
+        existingPatient.setPhone(patient.getPhone());
+        patientRepository.save(existingPatient);
+        isUpdated = true;
+        return isUpdated;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean updateMedicalRecordByPatId(final Patient patient,
+            final Long patId) {
+        boolean isUpdated = false;
+
+        Patient existingPatient = patientRepository.findById(patId)
+                .orElse(null);
+
+        if (existingPatient == null) {
+            LOGGER.error("Unknow patient for id: {} ", patId);
             return isUpdated;
         }
         existingPatient.setUseName(patient.getUseName());

@@ -36,7 +36,7 @@ public class PatientController {
     @Autowired
     private PatientRepository patientRepository;
 
-    @ApiOperation(value = "GET a list of all patients", notes = "THYMELEAF - Return response 200")
+    @ApiOperation(value = "GET a list of all patients", notes = "THYMELEAF")
     @GetMapping("/patient/list")
     public String home(final Model model) {
         model.addAttribute("patients", patientRepository.findAll());
@@ -103,16 +103,19 @@ public class PatientController {
             return "patient/update";
         }
         patient.setId(patId);
-        patientService.updateMedicalRecord(patient, patId);
+        patientService.updateMedicalRecordByPatId(patient, patId);
         model.addAttribute("patient", patient);
         return "redirect:/patient/medicalRecord/{patId}";
     }
 
     @ApiOperation(value = "GET notes list", notes = "THYMELEAF - Return to notes microservice")
-    @GetMapping("/note/list/{patId}")
+    @GetMapping("/note/list/{lastName}/{firstName}")
     public ModelAndView getPatientNotes(
-            @PathVariable("patId") final String patId, final ModelMap model) {
-        model.addAttribute("patId", patId);
+            @PathVariable("lastName") final String lastName,
+            @PathVariable("firstName") final String firstName,
+            final ModelMap model) {
+        model.addAttribute("lastName", lastName);
+        model.addAttribute("firstName", firstName);
         return new ModelAndView("redirect:http://localhost:8082/note/list",
                 model);
     }
