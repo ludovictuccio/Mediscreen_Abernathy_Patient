@@ -29,4 +29,7 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
      */
     List<Patient> findAllPatientByLastName(String lastName);
 
+    Patient findByLastNameAndFirstName(final String lastName,
+            final String firstName);
+
 }

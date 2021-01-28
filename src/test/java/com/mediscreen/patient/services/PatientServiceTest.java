@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -39,6 +40,11 @@ public class PatientServiceTest {
             "200-12-31", "M", "11 rue albert, 45000 Orleans", "0645423", "");
     private static Patient patientBoyd3 = new Patient("Boyd", "Lydia",
             "1995-12-31", "F", "11 rue albert, 45000 Orleans", "016464", "");
+
+    @BeforeEach
+    public void setUpPerTest() {
+        patientRepository.findAll().clear();
+    }
 
     @Test
     @Tag("getAllPatientsWithLastname")
@@ -94,7 +100,7 @@ public class PatientServiceTest {
                 .isNotNull();
         assertThat(patientRepository.findByLastName("Generic1")).isNotNull();
 
-        assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isNull();
     }
 
     @Test
@@ -124,7 +130,7 @@ public class PatientServiceTest {
                 .isNotNull();
         assertThat(patientRepository.findByLastName("Generic1")).isNotNull();
 
-        assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isNull();
     }
 
     @Test
@@ -141,7 +147,7 @@ public class PatientServiceTest {
         // WHEN
         List<Patient> patientsList = patientRepository.findAll();
         List<Patient> result = patientService
-                .getAllPatientsWithSameLastname("12");
+                .getAllPatientsWithSameLastname("UNKNOW");
 
         // THEN
         assertThat(patientsList.size()).isEqualTo(9);// 4 in db
@@ -154,7 +160,7 @@ public class PatientServiceTest {
                 .isNotNull();
         assertThat(patientRepository.findByLastName("Generic1")).isNotNull();
 
-        assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isNull();
     }
 
     @Test
@@ -184,7 +190,7 @@ public class PatientServiceTest {
                 .isNotNull();
         assertThat(patientRepository.findByLastName("Generic1")).isNotNull();
 
-        assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isNull();
     }
 
     @Test
@@ -214,7 +220,7 @@ public class PatientServiceTest {
                 .isNotNull();
         assertThat(patientRepository.findByLastName("Generic1")).isNotNull();
 
-        assertThat(result.size()).isEqualTo(0);
+        assertThat(result).isNull();
     }
 
     @Test
@@ -253,7 +259,7 @@ public class PatientServiceTest {
                 "1990-12-31", "M", "other address", "11111", "usename");
 
         // WHEN
-        boolean result = patientService.updateMedicalRecord(patientUpdated, 5L);
+        boolean result = patientService.updateMedicalRecord(patientUpdated);
 
         List<Patient> patientsList = patientRepository.findAll();
 
