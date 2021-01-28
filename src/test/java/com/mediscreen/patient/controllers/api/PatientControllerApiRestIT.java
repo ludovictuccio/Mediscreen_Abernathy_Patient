@@ -60,7 +60,7 @@ public class PatientControllerApiRestIT {
             throws Exception {
         Patient patient = new Patient(1L, "Boyd", "Patient1", "1990-12-31", "M",
                 "11 rue albert, 45000 Orleans", "0101010101", "");
-        patientService.addPatient(patient);
+        patientRepository.save(patient);
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .get(URI_GET_PATIENT_INFOS + patient.getId())
@@ -76,7 +76,7 @@ public class PatientControllerApiRestIT {
             throws Exception {
         Patient patient = new Patient(1L, "Boyd", "Patient1", "1990-12-31", "M",
                 "11 rue albert, 45000 Orleans", "0101010101", "");
-        patientService.addPatient(patient);
+        patientRepository.save(patient);
         this.mockMvc
                 .perform(MockMvcRequestBuilders
                         .get(URI_GET_PATIENT_INFOS + "111")
@@ -104,7 +104,7 @@ public class PatientControllerApiRestIT {
             throws Exception {
         Patient patient = new Patient("Boyd", "Patient1", "1990-12-31", "M",
                 "11 rue albert, 45000 Orleans", "0101010101", "");
-        patientService.addPatient(patient);
+        patientRepository.save(patient);
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get(URI_SEARCH)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -120,11 +120,12 @@ public class PatientControllerApiRestIT {
             throws Exception {
         Patient patient = new Patient("Generic1", "Patient1", "1990-12-31", "M",
                 "11 rue albert, 45000 Orleans", "0101010101", "");
-        patientService.addPatient(patient);
+        patientRepository.save(patient);
+        Long patId = patientRepository.findAll().get(0).getId();
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get(URI_BASE)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .param("patId", "1"))
+                        .param("patId", patId.toString()))
                 .andExpect(status().isOk()).andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isOk()).andReturn();
     }
@@ -135,7 +136,7 @@ public class PatientControllerApiRestIT {
     public void givenUser_whenUpdate_thenReturnOk() throws Exception {
         Patient patient = new Patient("Generic1", "Patient1", "1990-12-31", "M",
                 "11 rue albert, 45000 Orleans", "0101010101", "");
-        patientService.addPatient(patient);
+        patientRepository.save(patient);
 
         Patient patientToCreate = new Patient("Generic1", "Patient1",
                 "1990-12-31", "M", "new address", "0238222222", "new usename");
@@ -151,18 +152,19 @@ public class PatientControllerApiRestIT {
     @Test
     @Tag("PUT")
     @DisplayName("PUT Update patient - ERROR - Bad id")
-    public void aaaaa() throws Exception {
+    public void givenPatient_whenUpdateWithBadId_thenReturnBadRequest()
+            throws Exception {
         Patient patient = new Patient("Generic1", "Patient1", "1990-12-31", "M",
                 "11 rue albert, 45000 Orleans", "0101010101", "");
-        patientService.addPatient(patient);
+        patientRepository.save(patient);
 
-        Patient patientToCreate = new Patient("Generic1", "Patient1",
+        Patient patientToUpdate = new Patient("UNKNOW", "Patient1",
                 "1990-12-31", "M", "new address", "0238222222", "new usename");
-        String jsonContent = objectMapper.writeValueAsString(patientToCreate);
+        String jsonContent = objectMapper.writeValueAsString(patientToUpdate);
         this.mockMvc
                 .perform(MockMvcRequestBuilders.put(URI_BASE)
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonContent).param("patId", "111"))
+                        .content(jsonContent))
                 .andExpect(status().isBadRequest())
                 .andDo(MockMvcResultHandlers.print())
                 .andExpect(status().isBadRequest()).andReturn();
@@ -172,9 +174,8 @@ public class PatientControllerApiRestIT {
     @Tag("POST")
     @DisplayName("POST add patient - OK - 201")
     public void givenValidUser_whenAdd_thenReturnCreated() throws Exception {
-        Patient patientToCreate = new Patient("Generic1", "Patient1",
-                "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101",
-                "");
+        Patient patientToCreate = new Patient("New", "Patient", "1990-12-31",
+                "M", "11 rue albert, 45000 Orleans", "0101010101", "");
         String jsonContent = objectMapper.writeValueAsString(patientToCreate);
         this.mockMvc
                 .perform(MockMvcRequestBuilders.post(URI_BASE)
@@ -192,7 +193,7 @@ public class PatientControllerApiRestIT {
             throws Exception {
         Patient patient = new Patient("Generic1", "Patient1", "1990-12-31", "M",
                 "11 rue albert, 45000 Orleans", "0101010101", "");
-        patientService.addPatient(patient);
+        patientRepository.save(patient);
 
         Patient patientToCreate = new Patient("Generic1", "Patient1",
                 "200-12-12", "M", "11 rue albert, 45000 Orleans", "0101010101",
@@ -214,7 +215,7 @@ public class PatientControllerApiRestIT {
             throws Exception {
         Patient patient = new Patient("Generic1", "Patient1", "1990-12-31", "M",
                 "11 rue albert, 45000 Orleans", "0101010101", "");
-        patientService.addPatient(patient);
+        patientRepository.save(patient);
 
         Patient patientToCreate = new Patient("Generic1", "Patient1",
                 "1990-12-31", "M", "11 rue albert, 45000 Orleans", "0101010101",

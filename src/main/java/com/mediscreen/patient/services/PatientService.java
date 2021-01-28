@@ -42,6 +42,6 @@ public interface PatientService {
      * @param patient
      * @return boolean isUpdated
      */
-    boolean updateMedicalRecord(final Patient patient, final Long patId);
+    boolean updateMedicalRecord(final Patient patient);
 
 }

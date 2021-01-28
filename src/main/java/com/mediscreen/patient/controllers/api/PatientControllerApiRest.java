@@ -50,17 +50,30 @@ public class PatientControllerApiRest {
         return patientRepository.findAll();
     }
 
-    @ApiOperation(value = "GET a list of all patients with the same lastname", notes = "Need param lastName - Return a list (empty if no lastName found) - Return 200", response = Patient.class)
+    @ApiOperation(value = "GET a list of all patients with the same lastname", notes = "Need param lastName - Return 200 OK or 404 not found", response = Patient.class)
     @GetMapping("/searchPatient")
-    public List<Patient> getAllPatientsWithSameLastname(
+    public ResponseEntity<List<Patient>> getAllPatientsWithSameLastname(
             @RequestParam final String lastName) {
-        return patientService.getAllPatientsWithSameLastname(lastName);
+        List<Patient> result = patientService
+                .getAllPatientsWithSameLastname(lastName);
+        if (result != null) {
+            return new ResponseEntity<List<Patient>>(result, HttpStatus.OK);
+        }
+        LOGGER.error("GET request FAILED for: /api/patient/searchPatient");
+        return new ResponseEntity<List<Patient>>(HttpStatus.NOT_FOUND);
     }
 
-    @ApiOperation(value = "GET the patient medical record", notes = "Need param long 'patId' with patient's id - Return response 200", response = Patient.class)
+    @ApiOperation(value = "GET the patient medical record", notes = "Need param long 'patId' with patient's id - Return response 200 OK or 404 not found", response = Patient.class)
     @GetMapping
-    public Patient getMedicalRecord(@RequestParam final Long patId) {
-        return patientService.getPatientMedicalRecord(patId);
+    public ResponseEntity<Patient> getMedicalRecord(
+            @RequestParam final Long patId) {
+        Patient result = patientService.getPatientMedicalRecord(patId);
+        if (result != null) {
+            return new ResponseEntity<Patient>(result, HttpStatus.OK);
+        }
+        LOGGER.error("GET request FAILED for: /api/patient/{patId}");
+        return new ResponseEntity<Patient>(HttpStatus.NOT_FOUND);
+
     }
 
     @ApiOperation(value = "POST Add a new patient's medical record", notes = "Need Patient body - Return response 201 created or 400 bad request")
@@ -79,9 +92,8 @@ public class PatientControllerApiRest {
     @ApiOperation(value = "PUT Update a patient's medical record", notes = "Need Patient body & param long 'patId' with patient's id - Return response 200 Ok or 400 bad request")
     @PutMapping
     public ResponseEntity<Boolean> updateMedicalRecord(
-            @Valid @RequestBody final Patient patient,
-            @RequestParam final Long patId) {
-        boolean result = patientService.updateMedicalRecord(patient, patId);
+            @Valid @RequestBody final Patient patient) {
+        boolean result = patientService.updateMedicalRecord(patient);
 
         if (result == true) {
             return new ResponseEntity<Boolean>(HttpStatus.OK);
@@ -102,7 +114,9 @@ public class PatientControllerApiRest {
     public void checkExistingPatient(final Long patId) throws PatientException {
         Patient patient = patientService.getPatientMedicalRecord(patId);
         if (patient == null) {
-            throw new PatientException("Patient not found with id: " + patId);
+            throw new PatientException(
+                    "Patient microservice - Patient not found with id: "
+                            + patId);
         }
     }
 

@@ -29,7 +29,13 @@ public class PatientServiceImpl implements PatientService {
      * {@inheritDoc}
      */
     public List<Patient> getAllPatientsWithSameLastname(final String lastName) {
-        return patientRepository.findAllPatientByLastName(lastName);
+        List<Patient> patients = patientRepository
+                .findAllPatientByLastName(lastName);
+        if (patients == null || patients.isEmpty()) {
+            LOGGER.info("No patient found for lastName: {}", lastName);
+            return null;
+        }
+        return patients;
     }
 
     /**
@@ -49,7 +55,7 @@ public class PatientServiceImpl implements PatientService {
         List<Patient> allPatientsWithSameLastNameList = getAllPatientsWithSameLastname(
                 patient.getLastName());
 
-        if (!allPatientsWithSameLastNameList.isEmpty()) {
+        if (allPatientsWithSameLastNameList != null) {
 
             for (Patient patientRetrieved : allPatientsWithSameLastNameList) {
                 if (patientRetrieved.getFirstName().toUpperCase()
@@ -79,15 +85,14 @@ public class PatientServiceImpl implements PatientService {
     /**
      * {@inheritDoc}
      */
-    public boolean updateMedicalRecord(final Patient patient,
-            final Long patId) {
+    public boolean updateMedicalRecord(final Patient patient) {
         boolean isUpdated = false;
 
-        Patient existingPatient = patientRepository.findById(patId)
-                .orElse(null);
+        Patient existingPatient = patientRepository.findByLastNameAndFirstName(
+                patient.getLastName(), patient.getFirstName());
 
         if (existingPatient == null) {
-            LOGGER.error("Unknow patient with id: {}", patId);
+            LOGGER.error("Unknow patient: ");
             return isUpdated;
         }
         existingPatient.setUseName(patient.getUseName());
