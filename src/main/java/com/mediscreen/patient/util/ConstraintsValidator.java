@@ -26,6 +26,7 @@ public class ConstraintsValidator {
      * Method used to validate constraints for the adding patient method.
      *
      * @param patient
+     * @return patient
      */
     public static Patient checkValidPatient(final Patient patient) {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();

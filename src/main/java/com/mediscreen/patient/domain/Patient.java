@@ -40,12 +40,12 @@ public class Patient implements Serializable {
     private Long id = System.nanoTime();
 
     @NotBlank(message = "LastName is mandatory")
-    @Size(min = 2, max = Constants.LASTNAME_MAX_SIZE)
+    @Size(min = Constants.NAME_MIN_SIZE, max = Constants.LASTNAME_MAX_SIZE)
     @Column(name = "lastname")
     private String lastName;
 
     @NotBlank(message = "FirstName is mandatory")
-    @Size(min = 2, max = Constants.FIRSTNAME_MAX_SIZE)
+    @Size(min = Constants.NAME_MIN_SIZE, max = Constants.FIRSTNAME_MAX_SIZE)
     @Column(name = "firstname")
     private String firstName;
 
@@ -56,7 +56,7 @@ public class Patient implements Serializable {
     private String birthdate;
 
     @NotBlank(message = "Sex is mandatory (M or F)")
-    @Size(max = 1, message = "Sex is mandatory (M or F)")
+    @Size(max = Constants.SEX_MAX_SIZE, message = "Sex is mandatory (M or F)")
     @Column(name = "sex")
     @Pattern(regexp = "^[M|F]{1}$", message = "Must be M or F")
     private String sex;
@@ -74,20 +74,21 @@ public class Patient implements Serializable {
     private String useName;
 
     public Patient(
-            @NotBlank(message = "LastName is mandatory") @Size(min = 2, max = 100) String lastName,
-            @NotBlank(message = "FirstName is mandatory") @Size(min = 2, max = 200) String firstName,
-            @NotBlank(message = "Birthdate is mandatory") String birthdate,
-            @NotBlank(message = "Sex is mandatory (M or F)") @Size(max = 1, message = "Sex is mandatory (M or F)") @Pattern(regexp = "^[M|F]{1}$", message = "Must be M or F") String sex,
-            @Size(max = 225) String address, @Size(max = 30) String phone,
-            @Size(max = 100) String useName) {
+            @NotBlank(message = "LastName is mandatory") @Size(min = Constants.NAME_MIN_SIZE, max = Constants.LASTNAME_MAX_SIZE) final String plastName,
+            @NotBlank(message = "FirstName is mandatory") @Size(min = Constants.NAME_MIN_SIZE, max = Constants.FIRSTNAME_MAX_SIZE) final String pfirstName,
+            @NotBlank(message = "Birthdate is mandatory") final String pbirthdate,
+            @NotBlank(message = "Sex is mandatory (M or F)") @Size(max = Constants.SEX_MAX_SIZE, message = "Sex is mandatory (M or F)") @Pattern(regexp = "^[M|F]{1}$", message = "Must be M or F") final String psex,
+            @Size(max = Constants.ADDRESS_MAX_SIZE) final String paddress,
+            @Size(max = Constants.PHONE_MAX_SIZE) final String pphone,
+            @Size(max = Constants.USE_NAME_MAX_SIZE) final String puseName) {
         super();
-        this.lastName = lastName;
-        this.firstName = firstName;
-        this.birthdate = birthdate;
-        this.sex = sex;
-        this.address = address;
-        this.phone = phone;
-        this.useName = useName;
+        this.lastName = plastName;
+        this.firstName = pfirstName;
+        this.birthdate = pbirthdate;
+        this.sex = psex;
+        this.address = paddress;
+        this.phone = pphone;
+        this.useName = puseName;
     }
 
 }

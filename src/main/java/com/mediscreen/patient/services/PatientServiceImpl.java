@@ -76,7 +76,7 @@ public class PatientServiceImpl implements PatientService {
             Patient lastPatientAdded = allPatients.get(allPatients.size() - 1);
             patient.setId(lastPatientAdded.getId() + 1);
         } else {
-            patient.setId(1l);
+            patient.setId(1L);
         }
         patientRepository.save(patient);
         return patient;
