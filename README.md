@@ -132,3 +132,11 @@ http://localhost:8083/api/reports/report <br/>
 
 The app has unit tests and integration tests written. <br/>
 You must launch `mvn test` or build with `mvn clean package` (all reports available in *"/target"*).
+
+## JaCoCo report
+
+![Screenshot](Jacoco.PNG)
+
+## Surefire report
+
+![Screenshot](Surefire.PNG)

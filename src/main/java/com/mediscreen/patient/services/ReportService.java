@@ -11,5 +11,5 @@ public interface ReportService {
      * @param patient
      * @return PatientDto
      */
-    PatientDto getPatientDto(final Patient patient);
+    PatientDto getPatientDto(Patient patient);
 }

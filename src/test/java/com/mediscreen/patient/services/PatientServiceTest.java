@@ -306,4 +306,144 @@ public class PatientServiceTest {
         assertThat(patientsList.size()).isEqualTo(5);// Not Changed
     }
 
+    @Test
+    @Tag("addPatient")
+    @DisplayName("addPatient - Error - Lastname size 1")
+    public void givenSizeOneLastName_whenAdd_thenReturnError() {
+        // GIVEN
+        patientRepository.save(patientGeneric1);
+        Patient patientToAdd = new Patient("G", "Patient1", "1990-12-31", "M",
+                "other address", "11111", "usename");
+
+        // WHEN
+        Patient result = patientService.addPatient(patientToAdd);
+
+        List<Patient> patientsList = patientRepository.findAll();
+
+        // THEN
+        assertThat(result).isNull();
+        assertThat(patientsList.size()).isEqualTo(5);// Not Changed
+    }
+
+    @Test
+    @Tag("addPatient")
+    @DisplayName("addPatient - Error - Firstname size 1")
+    public void givenSizeOneFirstName_whenAdd_thenReturnError() {
+        // GIVEN
+        patientRepository.save(patientGeneric1);
+        Patient patientToAdd = new Patient("Generic", "P", "1990-12-31", "M",
+                "other address", "11111", "usename");
+
+        // WHEN
+        Patient result = patientService.addPatient(patientToAdd);
+
+        List<Patient> patientsList = patientRepository.findAll();
+
+        // THEN
+        assertThat(result).isNull();
+        assertThat(patientsList.size()).isEqualTo(5);// Not Changed
+    }
+
+    @Test
+    @Tag("addPatient")
+    @DisplayName("addPatient - Error - LastName More than max size")
+    public void givenLastnameMoreThanMaxSizeAllowed_whenAdd_thenReturnError() {
+        // GIVEN
+        patientRepository.save(patientGeneric1);
+        Patient patientToAdd = new Patient(
+                "Genericpl-Genericpl-Genericpl-Genericpl-Genericpl-Genericpl-Genericpl-Genericpl-Genericpl-Genericpl-Genericpl-",
+                "Patient", "1990-12-31", "M", "other address", "11111",
+                "usename");
+
+        // WHEN
+        Patient result = patientService.addPatient(patientToAdd);
+
+        List<Patient> patientsList = patientRepository.findAll();
+
+        // THEN
+        assertThat(result).isNull();
+        assertThat(patientsList.size()).isEqualTo(5);// Not Changed
+    }
+
+    @Test
+    @Tag("addPatient")
+    @DisplayName("addPatient - Error - Firstname More than max size")
+    public void givenFirstnameMoreThanMaxSizeAllowed_whenAdd_thenReturnError() {
+        // GIVEN
+        patientRepository.save(patientGeneric1);
+        Patient patientToAdd = new Patient("Generic",
+                "PatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpat",
+                "1990-12-31", "M", "other address", "11111", "usename");
+
+        // WHEN
+        Patient result = patientService.addPatient(patientToAdd);
+
+        List<Patient> patientsList = patientRepository.findAll();
+
+        // THEN
+        assertThat(result).isNull();
+        assertThat(patientsList.size()).isEqualTo(5);// Not Changed
+    }
+
+    @Test
+    @Tag("addPatient")
+    @DisplayName("addPatient - Error - Address More than max size")
+    public void givenAddressMoreThanMaxSizeAllowed_whenAdd_thenReturnError() {
+        // GIVEN
+        patientRepository.save(patientGeneric1);
+        Patient patientToAdd = new Patient("Generic", "Patient", "1990-12-31",
+                "M",
+                "PatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpatPatientpat",
+                "11111", "usename");
+
+        // WHEN
+        Patient result = patientService.addPatient(patientToAdd);
+
+        List<Patient> patientsList = patientRepository.findAll();
+
+        // THEN
+        assertThat(result).isNull();
+        assertThat(patientsList.size()).isEqualTo(5);// Not Changed
+    }
+
+    @Test
+    @Tag("addPatient")
+    @DisplayName("addPatient - Error - Phone More than max size")
+    public void givenPhoneMoreThanMaxSizeAllowed_whenAdd_thenReturnError() {
+        // GIVEN
+        patientRepository.save(patientGeneric1);
+        Patient patientToAdd = new Patient("Generic", "Patient", "1990-12-31",
+                "M", "an address", "12345678911234567891123456789199",
+                "usename");
+
+        // WHEN
+        Patient result = patientService.addPatient(patientToAdd);
+
+        List<Patient> patientsList = patientRepository.findAll();
+
+        // THEN
+        assertThat(result).isNull();
+        assertThat(patientsList.size()).isEqualTo(5);// Not Changed
+    }
+
+    @Test
+    @Tag("addPatient")
+    @DisplayName("addPatient - Error - Usename More than max size")
+    public void givenUsenameMoreThanMaxSizeAllowed_whenAdd_thenReturnError() {
+        // GIVEN
+        patientRepository.save(patientGeneric1);
+        Patient patientToAdd = new Patient("Generic", "Patient", "1990-12-31",
+                "M", "an address", "125346",
+                "usenameapousenameapousenameapousenameapousenameapousenameapousenameapousenameapousenameapousenameapousenameapo");
+
+        // WHEN
+        Patient result = patientService.addPatient(patientToAdd);
+
+        List<Patient> patientsList = patientRepository.findAll();
+
+        // THEN
+        assertThat(result).isNull();
+        assertThat(patientsList.size()).isEqualTo(5);// Not Changed
+    }
+
 }

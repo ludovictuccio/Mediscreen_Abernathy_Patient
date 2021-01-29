@@ -95,7 +95,7 @@ public class PatientControllerApiRest {
             @Valid @RequestBody final Patient patient) {
         boolean result = patientService.updateMedicalRecord(patient);
 
-        if (result == true) {
+        if (result) {
             return new ResponseEntity<Boolean>(HttpStatus.OK);
         }
         LOGGER.error("PUT request FAILED for: /api/patient");
@@ -105,7 +105,7 @@ public class PatientControllerApiRest {
     @ApiOperation(value = "GET patient's personal informations DTO", notes = "Need param patId (the patient's id) - Return response 200 OK or 404 not found")
     @GetMapping("/getPatientPersonalInformations/{patId}")
     public com.mediscreen.patient.domain.dto.PatientDto getPatientPersonalInformations(
-            @PathVariable("patId") Long patId) throws PatientException {
+            @PathVariable("patId") final Long patId) throws PatientException {
         checkExistingPatient(patId);
         Patient patient = patientService.getPatientMedicalRecord(patId);
         return reportService.getPatientDto(patient);

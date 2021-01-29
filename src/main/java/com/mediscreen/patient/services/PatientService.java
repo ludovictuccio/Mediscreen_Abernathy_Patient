@@ -17,7 +17,7 @@ public interface PatientService {
      * @param lastName
      * @return a Patient list
      */
-    List<Patient> getAllPatientsWithSameLastname(final String lastName);
+    List<Patient> getAllPatientsWithSameLastname(String lastName);
 
     /**
      * Method used to get a patient's medical record with his id.
@@ -25,7 +25,7 @@ public interface PatientService {
      * @param id
      * @return patient
      */
-    Patient getPatientMedicalRecord(final Long id);
+    Patient getPatientMedicalRecord(Long id);
 
     /**
      * Method used to add a new patient's medical record, and check that patient
@@ -34,7 +34,7 @@ public interface PatientService {
      * @param patient
      * @return patient
      */
-    Patient addPatient(final Patient patient);
+    Patient addPatient(Patient patient);
 
     /**
      * Method used to update a patient's medical record.
@@ -42,14 +42,15 @@ public interface PatientService {
      * @param patient
      * @return boolean isUpdated
      */
-    boolean updateMedicalRecord(final Patient patient);
+    boolean updateMedicalRecord(Patient patient);
 
     /**
      * Method used to update a patient's medical record by patient's id.
      *
      * @param patient
+     * @param patId
      * @return boolean isUpdated
      */
-    boolean updateMedicalRecordByPatId(final Patient patient, final Long patId);
+    boolean updateMedicalRecordByPatId(Patient patient, Long patId);
 
 }
