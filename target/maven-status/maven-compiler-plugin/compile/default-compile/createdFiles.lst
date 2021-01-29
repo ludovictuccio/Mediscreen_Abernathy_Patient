@@ -1,11 +1,10 @@
-com\mediscreen\patient\util\AgeCalculator.class
+com\mediscreen\patient\controllers\api\PatientControllerApiRest.class
+com\mediscreen\patient\domain\Patient.class
 com\mediscreen\patient\util\ConstraintsValidator.class
 com\mediscreen\patient\controllers\HomeController.class
 com\mediscreen\patient\controllers\PatientController.class
 com\mediscreen\patient\repository\PatientRepository.class
 com\mediscreen\patient\services\PatientServiceImpl.class
-com\mediscreen\patient\controllers\api\PatientControllerApiRest.class
-com\mediscreen\patient\domain\Patient.class
 com\mediscreen\patient\MediscreenPatientApplication.class
 com\mediscreen\patient\services\PatientService.class
 com\mediscreen\patient\util\Constants.class

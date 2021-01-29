@@ -45,7 +45,7 @@ public class PatientController {
 
     @ApiOperation(value = "GET the patient medical record", notes = "THYMELEAF - Need PathVariable with patient id. Return response 200")
     @GetMapping("/patient/medicalRecord/{patId}")
-    public ModelAndView getMedicalRecord(
+    public ModelAndView getMedicalrecord(
             @PathVariable("patId") final Long patId, final ModelMap model) {
         Patient patient = patientService.getPatientMedicalRecord(patId);
 

@@ -1,4 +1,3 @@
-com\mediscreen\patient\util\AgeCalculatorTest.class
 com\mediscreen\patient\controllers\PatientControllerIT.class
 com\mediscreen\patient\MediscreenPatientApplicationTests.class
 com\mediscreen\patient\services\PatientServiceTest.class
