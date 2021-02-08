@@ -13,6 +13,10 @@ This application is made in two parts:
 
 ---
 
+![Screenshot](P9-diagramme.jpeg)
+
+---
+
 Mediscreen_Abernathy is composed of 4 microservices:
 
 1. **API Gateway**: https://github.com/ludovictuccio/Mediscreen_Abernathy_Api-Gateway <br/>
