@@ -1,0 +1,17 @@
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\services\PatientService.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\domain\dto\PatientDto.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\util\ConstraintsValidator.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\controllers\HomeController.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\domain\Patient.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\services\ReportServiceImpl.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\exceptions\PatientException.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\util\EntityToDtoConverter.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\exceptions\ApiError.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\services\PatientServiceImpl.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\controllers\api\PatientControllerApiRest.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\repository\PatientRepository.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\services\ReportService.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\controllers\PatientController.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\exceptions\BadRequestAdvisor.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\util\Constants.java
+C:\Users\Ludo\Documents\Eclipse\workspace\Mediscreen\Mediscreen_Abernathy_Patient\src\main\java\com\mediscreen\patient\MediscreenPatientApplication.java

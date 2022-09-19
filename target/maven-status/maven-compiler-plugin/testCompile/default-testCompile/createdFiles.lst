@@ -1,0 +1,5 @@
+com\mediscreen\patient\controllers\PatientControllerIT.class
+com\mediscreen\patient\MediscreenPatientApplicationTests.class
+com\mediscreen\patient\services\PatientServiceTest.class
+com\mediscreen\patient\repository\PatientRepositoryTest.class
+com\mediscreen\patient\controllers\api\PatientControllerApiRestIT.class
